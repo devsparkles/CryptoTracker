@@ -44,13 +44,11 @@ fun PriceChange(
 
     Row(
         modifier = modifier
-            .padding(horizontal = 4.dp)
+            .clip(RoundedCornerShape(100f))
             .background(backgroundColor)
-            .clip(
-                RoundedCornerShape(
-                    100f
-                )
-            ),
+            .padding(horizontal = 4.dp)
+
+        ,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(

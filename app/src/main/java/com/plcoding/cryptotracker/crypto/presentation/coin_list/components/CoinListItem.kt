@@ -1,6 +1,7 @@
 package com.plcoding.cryptotracker.crypto.presentation.coin_list.components
 
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -98,7 +99,9 @@ fun CoinListItem(
 @Composable
 private fun CoinListItem_preview() {
     CryptoTrackerTheme {
-        CoinListItem(coinUi = previewCoin, onClick = {})
+        CoinListItem(coinUi = previewCoin, onClick = {}, modifier = Modifier.background(
+            MaterialTheme.colorScheme.background
+        ))
     }
 }
 
@@ -106,7 +109,11 @@ private fun CoinListItem_preview() {
 @Composable
 private fun CoinListItemNegativePreview() {
     CryptoTrackerTheme {
-        CoinListItem(coinUi = previewCoinNegative, onClick = {})
+        CoinListItem(
+            coinUi = previewCoinNegative, onClick = {}, modifier = Modifier.background(
+                MaterialTheme.colorScheme.background
+            )
+        )
     }
 }
 
