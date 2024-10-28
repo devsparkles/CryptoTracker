@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.plcoding.cryptotracker.core.domain.util.onError
 import com.plcoding.cryptotracker.core.domain.util.onSuccess
 import com.plcoding.cryptotracker.crypto.domain.CoinDataSource
+import com.plcoding.cryptotracker.crypto.presentation.models.toCoinUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
@@ -33,7 +34,7 @@ class CoinListViewModel(
             coinDataSource.getCoins().onSuccess { coins ->
                     _state.update {
                         it.copy(
-                            isLoading = false, coins = it.coins
+                            isLoading = false, coins = coins.map { it.toCoinUi() }
                         )
                     }
 
