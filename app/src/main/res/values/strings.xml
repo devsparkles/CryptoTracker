@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CryptoTracker</string>
+    <string name="error_request_timout">The request timed out.</string>
+    <string name="error_too_many_requests">Too many requests.</string>
+    <string name="error_no_internet">No internet</string>
+    <string name="error_server_error">Server error.\n</string>
+    <string name="error_serialization">Serialization error.</string>
+    <string name="error_unknown">Unknown network error.</string>
 </resources>

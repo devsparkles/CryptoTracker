@@ -22,27 +22,22 @@ import com.plcoding.cryptotracker.ui.theme.CryptoTrackerTheme
 
 @Composable
 fun CoinListScreen(
-    state: CoinListState,
-    modifier: Modifier = Modifier) {
+    state: CoinListState, modifier: Modifier = Modifier
+) {
 
-    if(state.isLoading){
+
+    if (state.isLoading) {
         Box(
-            modifier = modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ){
+            modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center
+        ) {
             CircularProgressIndicator()
         }
     } else {
         LazyColumn(
-            modifier= modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(state.coins) { coinUi ->
-                CoinListItem(
-                    coinUi = coinUi,
-                    onClick = { /* TODO */ }
-
-                )
+                CoinListItem(coinUi = coinUi, onClick = { /* TODO */ })
                 HorizontalDivider()
             }
 
@@ -56,10 +51,8 @@ private fun CoinListScreenPreview() {
     CryptoTrackerTheme {
         CoinListScreen(
             state = CoinListState(
-                isLoading = false,
-                coins = coinsPreview()
-            ),
-            modifier = Modifier.background(
+                isLoading = false, coins = coinsPreview()
+            ), modifier = Modifier.background(
                 MaterialTheme.colorScheme.background
             )
         )
@@ -70,14 +63,15 @@ internal fun coinsPreview(): List<CoinUi> {
     val list = mutableListOf<CoinUi>()
     list.add(
         Coin(
-        id = "ether",
-        rank = 1,
-        name = "Ether",
-        symbol = "ETH",
-        marketCapUsd = 123123.74,
-        priceUsd = 900.45,
-        changePercent24Hr = 0.9
-    ).toCoinUi())
+            id = "ether",
+            rank = 1,
+            name = "Ether",
+            symbol = "ETH",
+            marketCapUsd = 123123.74,
+            priceUsd = 900.45,
+            changePercent24Hr = 0.9
+        ).toCoinUi()
+    )
     list.add(
         Coin(
             id = "bitcoin",
@@ -87,7 +81,8 @@ internal fun coinsPreview(): List<CoinUi> {
             marketCapUsd = 1234567891232.74,
             priceUsd = 62838.45,
             changePercent24Hr = 0.6
-        ).toCoinUi())
+        ).toCoinUi()
+    )
 
     list.add(
         Coin(
@@ -98,6 +93,7 @@ internal fun coinsPreview(): List<CoinUi> {
             marketCapUsd = 78.74,
             priceUsd = 880.45,
             changePercent24Hr = -0.2
-        ).toCoinUi())
+        ).toCoinUi()
+    )
     return list
 }
