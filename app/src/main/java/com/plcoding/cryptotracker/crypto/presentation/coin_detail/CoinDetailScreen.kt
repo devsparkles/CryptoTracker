@@ -131,8 +131,7 @@ fun CoinDetailScreen(
 
 }
 
-
-@PreviewDynamicColors
+@PreviewLightDark
 @Composable
 private fun CoinDetailPreview() {
     CryptoTrackerTheme {
