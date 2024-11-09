@@ -58,23 +58,19 @@ class CoinListViewModel(
                 start = ZonedDateTime.now().minusDays(5),
                 end = ZonedDateTime.now()
             ).onSuccess { history ->
-                    println(history)
-                }.onError { error ->
-                    _events.send(CoinListEvent.Error(error))
-                }
+                println(history)
+            }.onError { error ->
+                _events.send(CoinListEvent.Error(error))
+            }
         }
-
     }
 
     fun onAction(action: CoinListAction) {
-
         when (action) {
             is CoinListAction.OnCoinClick -> {
                 selectCoin(action.coinUi)
             }
-
         }
     }
-
 
 }
