@@ -17,13 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.toSize
 import com.plcoding.cryptotracker.crypto.domain.CoinPrice
 import com.plcoding.cryptotracker.ui.theme.CryptoTrackerTheme
 import java.time.ZonedDateTime
@@ -61,12 +61,12 @@ fun LineChart(
 
     val measurer = rememberTextMeasurer()
 
-    var xLabelWitdh by remember {
+    var xLabelWidth by remember {
         mutableFloatStateOf(0f)
     }
 
-    LaunchedEffect(key1 = xLabelWitdh) {
-        onXLabelWidthChange(xLabelWitdh)
+    LaunchedEffect(key1 = xLabelWidth) {
+        onXLabelWidthChange(xLabelWidth)
     }
 
     val selectedDataPointIndex = remember(selectedDataPoint) {
@@ -195,11 +195,16 @@ fun LineChart(
 
         // show the line of bottom of the chart's label
 
-        xLabelWitdh = maxXLabelWidth + xAxisLabelSpacingPx
+        xLabelWidth = maxXLabelWidth + xAxisLabelSpacingPx
+
+
+
+
+
         xLabelTextLayoutResults.forEachIndexed { index, result ->
 
             val x =
-                maxYLabelWidth.toFloat() + viewPortLeftX + xAxisLabelSpacingPx / 2f + xLabelWitdh * index
+                maxYLabelWidth.toFloat() + viewPortLeftX + xAxisLabelSpacingPx / 2f + xLabelWidth * index
 
             val y = viewPortBottomY + xAxisLabelSpacingPx
             drawText(
@@ -244,14 +249,15 @@ fun LineChart(
                     text = valueLabel.formatted(),
                     style = textStyle.copy(color = style.selectedColor)
                 )
-                val textPositionX = if(selectedDataPointIndex == visibleDataPointsIndices.last) {
+                val textPositionX = if (selectedDataPointIndex == visibleDataPointsIndices.last) {
                     x - valueResult.size.width
                 } else {
                     x - valueResult.size.width / 2f
                 } + result.size.width / 2f
 
-                val isTextInVisibleRAnge =(size.width -textPositionX).roundToInt() in 0..size.width.roundToInt()
-                if(isTextInVisibleRAnge){
+                val isTextInVisibleRAnge =
+                    (size.width - textPositionX).roundToInt() in 0..size.width.roundToInt()
+                if (isTextInVisibleRAnge) {
                     drawText(
                         textLayoutResult = valueResult,
                         topLeft = Offset(
@@ -262,6 +268,51 @@ fun LineChart(
                     )
                 }
             }
+
+            drawPoints = visibleDataPointsIndices.map {
+                val x = maxYLabelWidth.toFloat() + viewPortLeftX + (it - visibleDataPointsIndices.first) *
+                        xLabelWidth + xLabelWidth / 2f
+                // [minYValue; maxYValue] -> [0; 1]
+                val ratio = (dataPoints[it].y - minYValue) / (maxYValue - minYValue)
+                val y = viewPortBottomY - (ratio * viewPortHeightPx)
+                DataPoint(
+                    x = x,
+                    y = y,
+                    xLabel = dataPoints[it].xLabel
+                )
+            }
+
+            drawPoints.forEachIndexed { index, point ->
+                if (isShowingDataPoints) {
+                    val circleOffset = Offset(
+                        x = point.x,
+                        y = point.y
+                    )
+                    drawCircle(
+                        color = style.selectedColor,
+                        radius = 10f,
+                        center = circleOffset
+                    )
+
+                    if (selectedDataPointIndex == index) {
+                        drawCircle(
+                            color = Color.White,
+                            radius = 15f,
+                            center = circleOffset
+                        )
+                        drawCircle(
+                            color = style.selectedColor,
+                            radius = 15f,
+                            center = circleOffset,
+                            style = Stroke(
+                                width = 3f
+                            )
+                        )
+                    }
+                }
+            }
+
+
         }
 
 
