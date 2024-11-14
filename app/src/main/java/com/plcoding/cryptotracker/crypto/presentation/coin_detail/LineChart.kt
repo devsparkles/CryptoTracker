@@ -85,7 +85,7 @@ fun LineChart(
         val minLabelSpacingY = style.minYLabelSpacing.roundToPx()
         val verticalPaddingPx = style.verticalPadding.roundToPx()
         val horizontalPaddingPx = style.horizontalPadding.roundToPx()
-        val xAxisLabelSpacingPx = style.xAxisLabelSpacing.roundToPx()
+        val xAxisLabelSpacingPx = style.xAxisLabelSpacing.toPx()
 
 
         val xLabelTextLayoutResults = visibleDataPoints.map {
@@ -124,11 +124,12 @@ fun LineChart(
             size = viewPort.size
         )
 
+        xLabelWitdh = maxXLabelWidth + xAxisLabelSpacingPx
         xLabelTextLayoutResults.forEachIndexed { index, result ->
             drawText(
                 textLayoutResult = result,
                 topLeft =  Offset(
-                    x = viewPortLeftX + (index + 1) * (viewPort.width / (visibleDataPoints.size + 1)) - result.size.width / 2,
+                    x = viewPortLeftX + xAxisLabelSpacingPx / 2f + xLabelWitdh * index ,
                     y = viewPortBottomY + xAxisLabelSpacingPx
                 )
             )
@@ -137,6 +138,7 @@ fun LineChart(
 
 
 }
+
 
 
 @Preview(widthDp = 1000)
